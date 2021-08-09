@@ -1,13 +1,13 @@
-package com.urb.maximus.jwd04.console;
+package main.java.com.maximus.jwd.console;
 
-import com.urb.maximus.jwd04.entity.EnRuPairOfWords;
-import com.urb.maximus.jwd04.exception.DictionaryConsoleApplicationException;
-import com.urb.maximus.jwd04.exception.DictionaryWordNotFoundException;
-import com.urb.maximus.jwd04.service.EnRuDictionary;
-import com.urb.maximus.jwd04.service.EnRuDictionaryImpl;
-import com.urb.maximus.jwd04.service.InputProcessor;
+import main.java.com.maximus.jwd.entity.EnRuPairOfWords;
+import main.java.com.maximus.jwd.exception.DictionaryConsoleApplicationException;
+import main.java.com.maximus.jwd.exception.DictionaryWordNotFoundException;
+import main.java.com.maximus.jwd.service.EnRuDictionary;
+import main.java.com.maximus.jwd.service.InputProcessor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EnRuDictionaryConsoleApplication {
     public static final String WELCOME_MESSAGE = "Press:" +
@@ -21,7 +21,7 @@ public class EnRuDictionaryConsoleApplication {
             ;
     public static final int EXIT = 0, ADD_PAIR_OF_WORDS = 1, EN_WORD_TRANSLATION = 2, RU_WORD_TRANSLATION = 3, SHOW_NUMBER_OF_WORDS = 4,
             SHOW_ALL_PAIRS_OF_WORDS = 5, QUIZ = 6, RESTART_VALUE = 999;
-    public static final String DELIMITER = "\n==============================================\n";
+    public static final String DELIMITER = "==============================================";
 
     private final EnRuDictionary dictionary;
     private final InputProcessor inputProcessor;
@@ -67,7 +67,7 @@ public class EnRuDictionaryConsoleApplication {
                     break;
 
                 default:
-                    printConsole("Invalid choice. Restarting app." + DELIMITER);
+                    printConsole("Invalid choice. Restarting app.\n" + DELIMITER);
             }
         }
     }
@@ -79,7 +79,7 @@ public class EnRuDictionaryConsoleApplication {
             String ruWord = inputProcessor.getRuWord();
             EnRuPairOfWords pairOfWords = new EnRuPairOfWords(enWord, ruWord);
             dictionary.addPairOfWordsToDictionary(pairOfWords);
-            printConsole(pairOfWords.toString() + " was added to the dictionary");
+            printConsole(pairOfWords + " was added to the dictionary");
         }
         catch (DictionaryConsoleApplicationException e) {
             printCaughtException(e);
@@ -88,25 +88,20 @@ public class EnRuDictionaryConsoleApplication {
 
     private void translateEnWord() {
         try {
-            printConsole("Translation of english word");
             String enWord = inputProcessor.getEnWord();
-            EnRuPairOfWords pairOfWords = new EnRuPairOfWords(enWord, null);
-            dictionary.findRuWordFromEnWord(pairOfWords);
-            printConsole("Translation of " + pairOfWords.getEnWord() + " is " + pairOfWords.getRuWord());
+            String ruWord = dictionary.translateEnWord(enWord);
+            printConsole("Translation of " + enWord + " is " + ruWord);
         }
         catch (DictionaryConsoleApplicationException | DictionaryWordNotFoundException e) {
             printCaughtException(e);
         }
     }
 
-
     private void translateRuWord() {
         try {
-            printConsole("Translation of english word");
             String ruWord = inputProcessor.getRuWord();
-            EnRuPairOfWords pairOfWords = new EnRuPairOfWords(null, ruWord);
-            dictionary.findRuWordFromEnWord(pairOfWords);
-            printConsole("Translation of " + pairOfWords.getRuWord() + " is " + pairOfWords.getEnWord());
+            String enWord = dictionary.translateRuWord(ruWord);
+            printConsole("Translation of " + ruWord + " is " + enWord);
         }
         catch (DictionaryConsoleApplicationException | DictionaryWordNotFoundException e) {
             printCaughtException(e);
@@ -115,13 +110,58 @@ public class EnRuDictionaryConsoleApplication {
 
     private void showNumberOfWords() {
         printConsole("Number of words in the dictionary is " + dictionary.getNumberOfWords());
+        printConsole(DELIMITER);
     }
 
     private void showAllPairsOfWords() {
         dictionary.printAllPairsOfWords();
+        printConsole(DELIMITER);
     }
 
     private void startQuiz() {
+        List<EnRuPairOfWords> listOfWordsForQuiz = dictionary.getListForQuiz(); //todo:  add variable number of words in quiz
+        printConsole("Translate following words into russian:");
+        printWordsForQuiz(listOfWordsForQuiz);
+        List<EnRuPairOfWords> listOfWrongWords = new ArrayList<>();
+        double percentOfRightAnswers = 0.0;
+
+        for (int i = 0; i < 5; i++) {
+            try {
+                String ruWord = inputProcessor.getRuWord();
+                if (ruWord.equals(listOfWordsForQuiz.get(i).getRuWord())) {
+                    percentOfRightAnswers += 20;
+                }
+                else {
+                    listOfWrongWords.add(listOfWordsForQuiz.get(i));
+                }
+            }
+            catch (DictionaryConsoleApplicationException e) {
+                printCaughtException(e);
+            }
+        }
+        printResultOfQuiz(percentOfRightAnswers, listOfWrongWords);
+    }
+
+    private void printWordsForQuiz(List<EnRuPairOfWords> list) {
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print(list.get(i).getEnWord() + " | ");
+        }
+        System.out.println();
+    }
+
+    private void printResultOfQuiz(double percentOfRightAnswers, List<EnRuPairOfWords> listOfWrongAnswers) {
+        if (Double.compare(percentOfRightAnswers, 100.0) == 0){
+            printConsole("Well done! You are rock!!");
+        }
+        else {
+            printConsole(DELIMITER);
+            printConsole("You have " + percentOfRightAnswers + "% of right answers");
+            printConsole("You wrong in next words:");
+            for (int i = 0; i < listOfWrongAnswers.size(); i++) {
+                printConsole(listOfWrongAnswers.get(i).toString());
+            }
+        }
+        printConsole(DELIMITER);
     }
 
     private int getConsoleChoice() {
@@ -134,6 +174,8 @@ public class EnRuDictionaryConsoleApplication {
 
     private void printCaughtException(Exception e) {
         // здесь e.getMessage() возвращает сообщение, которое мы оставили, когда выбрасывали свою ошибку
-        printConsole("Exception: Exception message is " + e.getMessage());
+        printConsole("Exception: " + e.getMessage());
     }
+
+
 }

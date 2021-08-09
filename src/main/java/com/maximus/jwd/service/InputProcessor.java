@@ -1,8 +1,8 @@
-package com.urb.maximus.jwd04.service;
+package main.java.com.maximus.jwd.service;
 
-import com.urb.maximus.jwd04.console.EnRuDictionaryConsoleApplication;
-import com.urb.maximus.jwd04.exception.DictionaryConsoleApplicationException;
-import com.urb.maximus.jwd04.validator.DictionaryWordsValidator;
+import main.java.com.maximus.jwd.console.EnRuDictionaryConsoleApplication;
+import main.java.com.maximus.jwd.exception.DictionaryConsoleApplicationException;
+import main.java.com.maximus.jwd.validator.DictionaryWordsValidator;
 
 import java.util.Scanner;
 
@@ -38,10 +38,11 @@ public class InputProcessor {
     }
 
     public String getEnWord() throws DictionaryConsoleApplicationException {
+        System.out.print("Enter english word: ");
         String word = "";
         try {
             if (scanner.hasNext()) {
-                word = scanner.nextLine();
+                word = scanner.next();
             }
             validator.validateEnWord(word);
         }
@@ -53,10 +54,11 @@ public class InputProcessor {
     }
 
     public String getRuWord() throws DictionaryConsoleApplicationException {
+        System.out.print("Enter russian word: ");
         String word = "";
         try {
             if (scanner.hasNext()) {
-                word = scanner.nextLine();
+                word = scanner.next();
             }
             validator.validateRuWord(word);
         }

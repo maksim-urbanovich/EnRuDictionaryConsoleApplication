@@ -1,7 +1,7 @@
-package com.urb.maximus.jwd04;
+package main.java.com.maximus.jwd;
 
-import com.urb.maximus.jwd04.console.EnRuDictionaryConsoleApplication;
-import com.urb.maximus.jwd04.service.EnRuDictionaryImpl;
+import main.java.com.maximus.jwd.console.EnRuDictionaryConsoleApplication;
+import main.java.com.maximus.jwd.service.EnRuDictionaryImpl;
 
 public class Main {
 

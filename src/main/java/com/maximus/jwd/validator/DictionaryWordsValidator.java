@@ -1,10 +1,10 @@
-package com.urb.maximus.jwd04.validator;
+package main.java.com.maximus.jwd.validator;
 
-import com.urb.maximus.jwd04.exception.DictionaryConsoleApplicationException;
+import main.java.com.maximus.jwd.exception.DictionaryConsoleApplicationException;
 
 public class DictionaryWordsValidator {
-    private final String REG_EX_EN = "w+";
-    private final String REG_EX_RU = "[а..яА..Я]+";
+    private final String REG_EX_EN = "[a-zA-Z]+$";
+    private final String REG_EX_RU = "[а-яА-Я]+$";
 
     public void validateEnWord(String word) throws DictionaryConsoleApplicationException {
         if (!word.matches(REG_EX_EN)) {

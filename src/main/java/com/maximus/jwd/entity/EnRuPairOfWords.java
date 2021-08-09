@@ -1,6 +1,4 @@
-package com.urb.maximus.jwd04.entity;
-
-import java.util.Objects;
+package main.java.com.maximus.jwd.entity;
 
 public class EnRuPairOfWords {
     private String enWord;
@@ -52,9 +50,6 @@ public class EnRuPairOfWords {
 
     @Override
     public String toString() {
-        return "EnRuPairOfWords{" +
-                "enWord='" + enWord + '\'' +
-                "- ruWord='" + ruWord + '\'' +
-                '}';
+        return enWord + " - " + ruWord;
     }
 }
