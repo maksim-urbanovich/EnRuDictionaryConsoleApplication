@@ -1,11 +1,13 @@
 package com.urb.maximus.jwd04.console;
 
+import com.urb.maximus.jwd04.entity.EnRuPairOfWords;
+import com.urb.maximus.jwd04.exception.DictionaryConsoleApplicationException;
+import com.urb.maximus.jwd04.exception.DictionaryWordNotFoundException;
 import com.urb.maximus.jwd04.service.EnRuDictionary;
 import com.urb.maximus.jwd04.service.EnRuDictionaryImpl;
 import com.urb.maximus.jwd04.service.InputProcessor;
 
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 public class EnRuDictionaryConsoleApplication {
     public static final String WELCOME_MESSAGE = "Press:" +
@@ -21,16 +23,15 @@ public class EnRuDictionaryConsoleApplication {
             SHOW_ALL_PAIRS_OF_WORDS = 5, QUIZ = 6, RESTART_VALUE = 999;
     public static final String DELIMITER = "\n==============================================\n";
 
-    private final EnRuDictionary enRuDictionary;
+    private final EnRuDictionary dictionary;
     private final InputProcessor inputProcessor;
-    private final Scanner scanner;
+
     {
         inputProcessor = new InputProcessor();
-        scanner = new Scanner(System.in);
     }
 
     public EnRuDictionaryConsoleApplication(EnRuDictionary enRuDictionary) {
-        this.enRuDictionary = enRuDictionary;
+        dictionary = enRuDictionary;
     }
 
     public void start() {
@@ -40,8 +41,8 @@ public class EnRuDictionaryConsoleApplication {
             printConsole(WELCOME_MESSAGE);
             printConsole(DELIMITER);
 
-            int consoleChoise = inputProcessor.getChoise();
-            switch (consoleChoise) {
+            int consoleChoice = getConsoleChoice();
+            switch (consoleChoice) {
                 case EXIT:
                     isRunning = false;
                     printConsole("App closes.");
@@ -71,29 +72,68 @@ public class EnRuDictionaryConsoleApplication {
         }
     }
 
-    private void translateEnWord() {
+    private void addPairOfWords() {
+        try {
+            printConsole("Add pair of words.");
+            String enWord = inputProcessor.getEnWord();
+            String ruWord = inputProcessor.getRuWord();
+            EnRuPairOfWords pairOfWords = new EnRuPairOfWords(enWord, ruWord);
+            dictionary.addPairOfWordsToDictionary(pairOfWords);
+            printConsole(pairOfWords.toString() + " was added to the dictionary");
+        }
+        catch (DictionaryConsoleApplicationException e) {
+            printCaughtException(e);
+        }
     }
 
-    private void addPairOfWords() {
+    private void translateEnWord() {
+        try {
+            printConsole("Translation of english word");
+            String enWord = inputProcessor.getEnWord();
+            EnRuPairOfWords pairOfWords = new EnRuPairOfWords(enWord, null);
+            dictionary.findRuWordFromEnWord(pairOfWords);
+            printConsole("Translation of " + pairOfWords.getEnWord() + " is " + pairOfWords.getRuWord());
+        }
+        catch (DictionaryConsoleApplicationException | DictionaryWordNotFoundException e) {
+            printCaughtException(e);
+        }
     }
+
 
     private void translateRuWord() {
+        try {
+            printConsole("Translation of english word");
+            String ruWord = inputProcessor.getRuWord();
+            EnRuPairOfWords pairOfWords = new EnRuPairOfWords(null, ruWord);
+            dictionary.findRuWordFromEnWord(pairOfWords);
+            printConsole("Translation of " + pairOfWords.getRuWord() + " is " + pairOfWords.getEnWord());
+        }
+        catch (DictionaryConsoleApplicationException | DictionaryWordNotFoundException e) {
+            printCaughtException(e);
+        }
     }
 
     private void showNumberOfWords() {
+        printConsole("Number of words in the dictionary is " + dictionary.getNumberOfWords());
     }
 
     private void showAllPairsOfWords() {
+        dictionary.printAllPairsOfWords();
     }
 
     private void startQuiz() {
     }
 
-    private int getConsoleChoise() {
-        return inputProcessor.getChoise();
+    private int getConsoleChoice() {
+        return inputProcessor.getChoice();
     }
 
     private void printConsole(final String message) {
         System.out.println(message);
+    }
+
+    private void printCaughtException(Exception e) {
+        // здесь e.getMessage() возвращает сообщение, которое мы оставили, когда выбрасывали свою ошибку
+        printConsole("Exception: Exception message is " + e.getMessage());
     }
 }
