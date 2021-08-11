@@ -100,8 +100,8 @@ public class EnRuDictionaryConsoleApplication {
     private void translateRuWord() {
         try {
             String ruWord = inputProcessor.getRuWord();
-            String enWord = dictionary.translateRuWord(ruWord);
-            printConsole("Translation of " + ruWord + " is " + enWord);
+            List<String> listOfTranslations = dictionary.translateRuWord(ruWord);
+            printConsole("Translation of " + ruWord + " is " + listOfTranslations);
         }
         catch (DictionaryConsoleApplicationException | DictionaryWordNotFoundException e) {
             printCaughtException(e);
@@ -122,6 +122,7 @@ public class EnRuDictionaryConsoleApplication {
         List<EnRuPairOfWords> listOfWordsForQuiz = dictionary.getListForQuiz(); //todo:  add variable number of words in quiz
         printConsole("Translate following words into russian:");
         printWordsForQuiz(listOfWordsForQuiz);
+
         List<EnRuPairOfWords> listOfWrongWords = new ArrayList<>();
         double percentOfRightAnswers = 0.0;
 

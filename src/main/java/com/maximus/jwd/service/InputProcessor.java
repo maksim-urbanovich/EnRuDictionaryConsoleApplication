@@ -29,7 +29,7 @@ public class InputProcessor {
     }
 
     private void cleanScannerNextEnteredValue() {
-        final String next = scanner.next();
+        final String next = scanner.nextLine();
         printConsole("Entered next=[" + next + "].");
     }
 
@@ -49,7 +49,6 @@ public class InputProcessor {
         catch (DictionaryConsoleApplicationException e) {
             throw e;
         }
-
         return word;
     }
 
@@ -65,7 +64,6 @@ public class InputProcessor {
         catch (DictionaryConsoleApplicationException e) {
             throw e;
         }
-
         return word;
     }
 }

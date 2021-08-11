@@ -42,16 +42,18 @@ public class EnRuDictionaryImpl implements EnRuDictionary {
     }
 
     @Override
-    public String translateRuWord(String input) throws DictionaryWordNotFoundException {
-        String output = "";
-        int index = ruWords.indexOf(input);
-        if (Integer.compare(index, -1) != 0) {
-            output = enWords.get(index);
+    public List<String> translateRuWord(String input) throws DictionaryWordNotFoundException {
+        List<String> listOfTranslations = new ArrayList<>();
+        for (int i = 0; i < ruWords.size(); i++) {
+            if (input.equals(ruWords.get(i))) {
+                listOfTranslations.add(enWords.get(i));
+            }
         }
-        else {
+
+        if (Integer.compare(listOfTranslations.size(), 0) == 0) {
             throw new DictionaryWordNotFoundException(input + " is not in the dictionary");
         }
-        return output;
+        return listOfTranslations;
     }
 
     @Override
