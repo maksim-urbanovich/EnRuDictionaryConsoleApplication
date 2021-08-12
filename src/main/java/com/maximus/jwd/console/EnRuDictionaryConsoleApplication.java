@@ -5,6 +5,7 @@ import main.java.com.maximus.jwd.exception.DictionaryConsoleApplicationException
 import main.java.com.maximus.jwd.exception.DictionaryWordNotFoundException;
 import main.java.com.maximus.jwd.service.EnRuDictionary;
 import main.java.com.maximus.jwd.service.InputProcessor;
+import main.java.com.maximus.jwd.service.impl.InputProcessorImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +25,10 @@ public class EnRuDictionaryConsoleApplication {
     public static final String DELIMITER = "==============================================";
 
     private final EnRuDictionary dictionary;
-    private final InputProcessor inputProcessor;
+    private final InputProcessor inputProcessorImpl;
 
     {
-        inputProcessor = new InputProcessor();
+        inputProcessorImpl = new InputProcessorImpl();
     }
 
     public EnRuDictionaryConsoleApplication(EnRuDictionary enRuDictionary) {
@@ -75,8 +76,8 @@ public class EnRuDictionaryConsoleApplication {
     private void addPairOfWords() {
         try {
             printConsole("Add pair of words.");
-            String enWord = inputProcessor.getEnWord();
-            String ruWord = inputProcessor.getRuWord();
+            String enWord = inputProcessorImpl.getEnWord();
+            String ruWord = inputProcessorImpl.getRuWord();
             EnRuPairOfWords pairOfWords = new EnRuPairOfWords(enWord, ruWord);
             dictionary.addPairOfWordsToDictionary(pairOfWords);
             printConsole(pairOfWords + " was added to the dictionary");
@@ -88,7 +89,7 @@ public class EnRuDictionaryConsoleApplication {
 
     private void translateEnWord() {
         try {
-            String enWord = inputProcessor.getEnWord();
+            String enWord = inputProcessorImpl.getEnWord();
             String ruWord = dictionary.translateEnWord(enWord);
             printConsole("Translation of " + enWord + " is " + ruWord);
         }
@@ -99,7 +100,7 @@ public class EnRuDictionaryConsoleApplication {
 
     private void translateRuWord() {
         try {
-            String ruWord = inputProcessor.getRuWord();
+            String ruWord = inputProcessorImpl.getRuWord();
             List<String> listOfTranslations = dictionary.translateRuWord(ruWord);
             printConsole("Translation of " + ruWord + " is " + listOfTranslations);
         }
@@ -128,7 +129,7 @@ public class EnRuDictionaryConsoleApplication {
 
         for (int i = 0; i < 5; i++) {
             try {
-                String ruWord = inputProcessor.getRuWord();
+                String ruWord = inputProcessorImpl.getRuWord();
                 if (ruWord.equals(listOfWordsForQuiz.get(i).getRuWord())) {
                     percentOfRightAnswers += 20;
                 }
@@ -166,7 +167,7 @@ public class EnRuDictionaryConsoleApplication {
     }
 
     private int getConsoleChoice() {
-        return inputProcessor.getChoice();
+        return inputProcessorImpl.getChoice();
     }
 
     private void printConsole(final String message) {

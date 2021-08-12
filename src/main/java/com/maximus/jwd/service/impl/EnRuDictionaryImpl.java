@@ -1,7 +1,8 @@
-package main.java.com.maximus.jwd.service;
+package main.java.com.maximus.jwd.service.impl;
 
 import main.java.com.maximus.jwd.entity.EnRuPairOfWords;
 import main.java.com.maximus.jwd.exception.DictionaryWordNotFoundException;
+import main.java.com.maximus.jwd.service.EnRuDictionary;
 
 import java.util.*;
 

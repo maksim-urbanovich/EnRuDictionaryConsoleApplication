@@ -1,7 +1,7 @@
 package main.java.com.maximus.jwd;
 
 import main.java.com.maximus.jwd.console.EnRuDictionaryConsoleApplication;
-import main.java.com.maximus.jwd.service.EnRuDictionaryImpl;
+import main.java.com.maximus.jwd.service.impl.EnRuDictionaryImpl;
 
 public class Main {
 
