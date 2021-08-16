@@ -1,9 +1,9 @@
-package main.java.com.maximus.jwd.service.impl;
+package com.maximus.jwd.service.impl;
 
-import main.java.com.maximus.jwd.console.EnRuDictionaryConsoleApplication;
-import main.java.com.maximus.jwd.exception.DictionaryConsoleApplicationException;
-import main.java.com.maximus.jwd.service.InputProcessor;
-import main.java.com.maximus.jwd.validator.DictionaryWordsValidator;
+import  com.maximus.jwd.console.EnRuDictionaryConsoleApplication;
+import  com.maximus.jwd.exception.DictionaryConsoleApplicationException;
+import  com.maximus.jwd.service.InputProcessor;
+import  com.maximus.jwd.validator.DictionaryWordsValidator;
 
 import java.util.Scanner;
 

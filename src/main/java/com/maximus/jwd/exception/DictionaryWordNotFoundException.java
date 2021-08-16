@@ -1,4 +1,4 @@
-package main.java.com.maximus.jwd.exception;
+package com.maximus.jwd.exception;
 
 public class DictionaryWordNotFoundException extends Exception{
     public DictionaryWordNotFoundException(String message) {

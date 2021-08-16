@@ -1,6 +1,6 @@
-package main.java.com.maximus.jwd.validator;
+package com.maximus.jwd.validator;
 
-import main.java.com.maximus.jwd.exception.DictionaryConsoleApplicationException;
+import  com.maximus.jwd.exception.DictionaryConsoleApplicationException;
 
 public class DictionaryWordsValidator {
     private final String REG_EX_EN = "[a-zA-Z]+$";

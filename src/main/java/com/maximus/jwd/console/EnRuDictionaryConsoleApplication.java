@@ -1,11 +1,11 @@
-package main.java.com.maximus.jwd.console;
+package com.maximus.jwd.console;
 
-import main.java.com.maximus.jwd.entity.EnRuPairOfWords;
-import main.java.com.maximus.jwd.exception.DictionaryConsoleApplicationException;
-import main.java.com.maximus.jwd.exception.DictionaryWordNotFoundException;
-import main.java.com.maximus.jwd.service.EnRuDictionary;
-import main.java.com.maximus.jwd.service.InputProcessor;
-import main.java.com.maximus.jwd.service.impl.InputProcessorImpl;
+import  com.maximus.jwd.entity.EnRuPairOfWords;
+import  com.maximus.jwd.exception.DictionaryConsoleApplicationException;
+import  com.maximus.jwd.exception.DictionaryWordNotFoundException;
+import  com.maximus.jwd.service.EnRuDictionary;
+import  com.maximus.jwd.service.InputProcessor;
+import  com.maximus.jwd.service.impl.InputProcessorImpl;
 
 import java.util.ArrayList;
 import java.util.List;

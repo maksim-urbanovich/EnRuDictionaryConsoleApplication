@@ -1,4 +1,4 @@
-package main.java.com.maximus.jwd.entity;
+package com.maximus.jwd.entity;
 
 public class EnRuPairOfWords {
     private String enWord;
